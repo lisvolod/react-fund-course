@@ -1,0 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#root {
+    display: flex;
+    justify-content: center;
+}
+
+.App {
+    width: 800px;
+
+}
+
+.post {
+    display: flex;
+    padding: 15px;
+    border: 2px solid cornflowerblue;
+    margin-top: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-enter {
+    transform: translateX(-550px);
+}
+  
+.post-enter-active {
+    transform: translateX(0px);
+    transition: all 300ms ease-in;
+}
+
+.post-exit {
+    opacity: 1;
+}
+
+.post-exit-active {
+    transform: translateX(-550px);
+    transition: all 300ms ease-in;
+}
