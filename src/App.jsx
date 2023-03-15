@@ -1,5 +1,5 @@
 // https://www.youtube.com/watch?v=GNrdg3PzpJQ
-// 02:01:44➝ Постраничный вывод. Пагинация (pagination)
+// 02:12:00 ➝ React router. Постраничная навигация. BrowserRouter, Route, Switch, Redirect
 import React, { useEffect, useState } from 'react';
 import PostList from './Components/PostList';
 import PostForm from './Components/PostForm';
@@ -12,7 +12,8 @@ import { usePosts } from './hooks/usePosts';
 import PostService from './API/PostService';
 import Loader from './Components/UI/loader/Loader';
 import { useFetching } from './hooks/useFetching';
-import { getPageCount, getPagesArray } from './utils/pages';
+import { getPageCount } from './utils/pages';
+import Pagination from './Components/UI/pagination/Pagination';
 
 function App() {
   const [posts, setPosts] = useState ([]);
@@ -22,23 +23,15 @@ function App() {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
-  const [fetchPosts, isPostsLoading, postError ] = useFetching(async() => {
+  const [fetchPosts, isPostsLoading, postError ] = useFetching(async (limit, page) => {
       const response = await PostService.getAll(limit, page);
       setPosts(response.data);
       const totalCount = response.headers['x-total-count'];
       setTotalPages(getPageCount(totalCount, limit));
   })
   
-  let pagesArray = getPagesArray(totalPages);
-  console.log(pagesArray);
-  
-  
-  
-  
-  
-  
   useEffect( () => {
-    fetchPosts();
+    fetchPosts(limit, page);
   }, [] )
 
   const createPost = (newPost) => {
@@ -49,6 +42,12 @@ function App() {
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id))
   }
+
+  const changePage = (page) => {
+    setPage(page);
+    fetchPosts(limit, page)
+  }
+
 
   return (
     <div className="App">
@@ -73,7 +72,12 @@ function App() {
         ? <div style={{display: 'flex', justifyContent: 'center'}}><Loader/></div>
         : <PostList remove={removePost} posts={sortedAndSearchedPosts} title={"Список публікацій"}/>
         }
-            
+        <Pagination 
+            page={page} 
+            changePage={changePage} 
+            totalPages={totalPages}
+        />
+          
     </div>
   );
 }
