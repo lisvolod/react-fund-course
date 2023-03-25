@@ -1,0 +1,24 @@
+.navbar {
+    height: 50px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    padding: 0 15px;
+    background-color: #d1dcf3;
+}
+
+.navbar__links {
+    margin-left: auto;
+}
+
+.link {
+    margin: 0 5px;
+    padding: 5px 15px;
+    color: #10a7e1;
+    background: transparent;
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: 1px solid cornflowerblue;
+    text-decoration: none;
+}
